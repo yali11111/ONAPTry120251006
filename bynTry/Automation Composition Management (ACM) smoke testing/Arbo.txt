@@ -1,0 +1,36 @@
+📁 Example GitHub Repository Tree
+clamp-acm-ci/
+│
+├── .github/
+│   └── workflows/
+│       ├── build.yml
+│       ├── deploy-onap.yml
+│       └── smoke-test.yml
+│
+├── tosca/
+│   ├── policy-types/
+│   │   └── policy-type.yaml
+│   ├── node-types/
+│   │   └── automation-node.yaml
+│   └── compositions/
+│       └── acm-composition.yaml
+│
+├── xtesting/
+│   ├── testcases.yaml
+│   ├── smoke/
+│   │   └── test_acm_smoke.py
+│   └── requirements.txt
+│
+├── scripts/
+│   ├── deploy_onap.sh
+│   ├── upload_tosca.sh
+│   ├── instantiate_acm.sh
+│   ├── deploy_acm.sh
+│   └── cleanup.sh
+│
+├── docker/
+│   └── Dockerfile.xtesting
+│
+├── helm/                  # Optional if using K8s ONAP
+│
+└── README.md
