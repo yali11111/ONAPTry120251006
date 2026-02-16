@@ -1,4 +1,4 @@
-📁 Example GitHub Repository Tree
+Example GitHub Repository Tree
 clamp-acm-ci/
 │
 ├── .github/
