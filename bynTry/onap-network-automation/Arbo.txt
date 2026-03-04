@@ -1,0 +1,114 @@
+
+5g-network-automation/
+├── .github/
+│   ├── workflows/
+│   │   └── ci-cd.yml
+│   └── ISSUE_TEMPLATE.md
+├── docs/
+│   ├── architecture.md
+│   ├── deployment.md
+│   ├── event_flow.md
+│   ├── dcae_integration.md
+│   └── READMEs/
+├── scripts/
+│   ├── start_event_consumer.sh
+│   ├── start_event_producer.sh
+│   ├── deploy_services.sh
+│   └── teardown.sh
+├── config/
+│   ├── kafka.yaml
+│   ├── service_orchestrator.yaml
+│   ├── dcae.yaml
+│   ├── logging.yaml
+│   └── README.md
+├── event_consumer/
+│   ├── __init__.py
+│   ├── consume_event.py
+│   ├── handlers/
+│   │   ├── __init__.py
+│   │   ├── scale_handler.py
+│   │   ├── heal_handler.py
+│   │   └── config_update_handler.py
+│   └── utils.py
+├── event_producer/
+│   ├── __init__.py
+│   ├── produce_event.py
+│   └── utils.py
+├── orchestrator/
+│   ├── __init__.py
+│   ├── orchestrator.py
+│   ├── service_catalog.py
+│   ├── workflows/
+│   │   ├── __init__.py
+│   │   ├── scale_workflow.py
+│   │   ├── heal_workflow.py
+│   │   └── config_update_workflow.py
+│   └── adapters/
+│       ├── __init__.py
+│       ├── sdn_controller_adapter.py
+│       ├── vnf_manager_adapter.py
+│       └── ns_manager_adapter.py
+├── dcae/
+│   ├── __init__.py
+│   ├── collectors/
+│   │   ├── cpu_collector.py
+│   │   ├── memory_collector.py
+│   │   └── traffic_collector.py
+│   ├── analytics/
+│   │   ├── anomaly_detection.py
+│   │   └── threshold_alerts.py
+│   └── event_forwarder.py
+├── xtesting/
+│   ├── __init__.py
+│   ├── integration_tests/
+│   │   ├── test_event_flow.py
+│   │   ├── test_scaling.py
+│   │   └── test_healing.py
+│   ├── mocks/
+│   │   ├── mock_vnf.py
+│   │   └── mock_sdn_controller.py
+│   └── utils.py
+├── api/
+│   ├── __init__.py
+│   ├── rest/
+│   │   ├── app.py
+│   │   ├── endpoints/
+│   │   │   ├── health.py
+│   │   │   ├── scale.py
+│   │   │   └── heal.py
+│   │   └── schemas/
+│   └── grpc/
+├── tests/
+│   ├── event_consumer/
+│   │   ├── test_consume_event.py
+│   │   └── test_handlers.py
+│   ├── event_producer/
+│   │   └── test_produce_event.py
+│   ├── orchestrator/
+│   │   ├── test_orchestrator.py
+│   │   └── test_workflows.py
+│   └── integration/
+├── docker/
+│   ├── Dockerfile.event_consumer
+│   ├── Dockerfile.event_producer
+│   ├── Dockerfile.orchestrator
+│   ├── Dockerfile.dcae
+│   └── compose/
+│       ├── docker-compose.yml
+│       └── kafka.yml
+├── helm/
+│   ├── charts/
+│   │   ├── event-consumer/
+│   │   ├── event-producer/
+│   │   ├── orchestrator/
+│   │   ├── dcae/
+│   │   └── kafka/
+│   └── values/
+│       ├── event-consumer-values.yaml
+│       ├── event-producer-values.yaml
+│       ├── orchestrator-values.yaml
+│       └── dcae-values.yaml
+├── .dockerignore
+├── .gitignore
+├── LICENSE
+└── README.md
