@@ -1,1 +1,49 @@
+tosca_definitions_version: tosca_simple_yaml_1_3
 
+description: >
+  Advanced ACM Automation Policy Type.
+
+policy_types:
+
+  onap.policies.clamp.acm.AutomationPolicy:
+    derived_from: tosca.policies.Root
+    version: 1.1.0
+
+    metadata:
+      category: automation
+      author: clamp-ci
+      release: jakarta
+
+    description: >
+      Controls automation participant execution
+      within ACM runtime.
+
+    properties:
+
+      action:
+        type: string
+        required: true
+        constraints:
+          - valid_values: [DEPLOY, UNDEPLOY, SCALE]
+
+      timeout:
+        type: integer
+        required: true
+        default: 300
+        constraints:
+          - greater_than: 0
+
+      retry_count:
+        type: integer
+        required: false
+        default: 1
+        constraints:
+          - in_range: [0, 5]
+
+      enabled:
+        type: boolean
+        required: false
+        default: true
+
+    targets:
+      - onap.nodes.Automation
