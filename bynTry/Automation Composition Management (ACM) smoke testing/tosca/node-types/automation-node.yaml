@@ -1,1 +1,31 @@
+tosca_definitions_version: tosca_simple_yaml_1_3
 
+description: >
+  Automation node definition for ACM participants.
+
+node_types:
+
+  onap.nodes.Automation:
+    derived_from: tosca.nodes.Root
+    version: 1.0.0
+
+    description: >
+      Represents an automation participant in ACM.
+
+    properties:
+      image:
+        type: string
+        required: true
+        description: Container image for execution
+
+      command:
+        type: string
+        required: true
+        description: Execution command
+
+    interfaces:
+      Standard:
+        create:
+          implementation: scripts/deploy_acm.sh
+        delete:
+          implementation: scripts/cleanup.sh
