@@ -1,1 +1,23 @@
+replicaCount: 2
 
+image:
+  repository: myregistry/5g-event-consumer
+  tag: v1.0.0
+  pullPolicy: IfNotPresent
+
+kafka:
+  brokers: kafka:9092
+  topic: vnf-events
+  groupId: event-consumer-group
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+env:
+  LOG_LEVEL: INFO
+  CONFIG_FILE: /etc/event-consumer/config.yaml
