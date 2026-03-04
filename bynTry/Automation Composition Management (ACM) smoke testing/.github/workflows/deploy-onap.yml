@@ -1,1 +1,66 @@
+name: Deploy ACM to ONAP
 
+on:
+  workflow_run:
+    workflows: ["Build & Validate"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ----------------------------
+      # Load xtesting image artifact
+      # ----------------------------
+      - name: Download Docker artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: acm-xtesting-image
+
+      - name: Load Docker image
+        run: |
+          docker load -i acm-xtesting.tar
+
+      # ----------------------------
+      # Export ONAP environment
+      # ----------------------------
+      - name: Set ONAP environment
+        run: |
+          echo "ONAP_HOST=${{ secrets.ONAP_HOST }}" >> $GITHUB_ENV
+          echo "ONAP_USER=${{ secrets.ONAP_USER }}" >> $GITHUB_ENV
+          echo "ONAP_PASSWORD=${{ secrets.ONAP_PASSWORD }}" >> $GITHUB_ENV
+
+      # ----------------------------
+      # Deploy ONAP (optional stub)
+      # ----------------------------
+      - name: Validate ONAP connectivity
+        run: |
+          curl -u "$ONAP_USER:$ONAP_PASSWORD" \
+               "$ONAP_HOST" || exit 1
+
+      # ----------------------------
+      # Upload TOSCA
+      # ----------------------------
+      - name: Upload ACM composition
+        run: |
+          bash scripts/upload_tosca.sh
+
+      # ----------------------------
+      # Instantiate ACM
+      # ----------------------------
+      - name: Instantiate ACM
+        run: |
+          bash scripts/instantiate_acm.sh
+
+      # ----------------------------
+      # Deploy ACM
+      # ----------------------------
+      - name: Deploy ACM
+        run: |
+          bash scripts/deploy_acm.sh
