@@ -1,1 +1,53 @@
+# --------------------------------------------------
+# Base Image
+# --------------------------------------------------
+FROM python:3.11-slim
 
+# Prevent python from writing pyc files
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# --------------------------------------------------
+# System Dependencies
+# --------------------------------------------------
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    jq \
+    git \
+    bash \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# --------------------------------------------------
+# Create non-root user
+# --------------------------------------------------
+RUN useradd -ms /bin/bash xtesting
+USER xtesting
+
+WORKDIR /home/xtesting/app
+
+# --------------------------------------------------
+# Copy project files
+# --------------------------------------------------
+COPY --chown=xtesting:xtesting xtesting/ ./xtesting/
+COPY --chown=xtesting:xtesting scripts/ ./scripts/
+
+# --------------------------------------------------
+# Install Python Dependencies
+# --------------------------------------------------
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r xtesting/requirements.txt
+
+# --------------------------------------------------
+# Environment Variables
+# These can be overridden at runtime
+# --------------------------------------------------
+ENV ONAP_HOST=http://onap:30280
+ENV ONAP_USER=demo
+ENV ONAP_PASSWORD=demo
+ENV ACM_COMPOSITION_NAME=acm-composition
+
+# --------------------------------------------------
+# Default Command
+# --------------------------------------------------
+CMD ["pytest", "xtesting/smoke", "-v", "--maxfail=1"]
