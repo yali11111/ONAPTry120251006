@@ -1,1 +1,47 @@
+name: Smoke Test ACM
 
+on:
+  workflow_run:
+    workflows: ["Deploy ACM to ONAP"]
+    types:
+      - completed
+
+jobs:
+  smoke:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ----------------------------
+      # Download xtesting image
+      # ----------------------------
+      - name: Download Docker artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: acm-xtesting-image
+
+      - name: Load Docker image
+        run: |
+          docker load -i acm-xtesting.tar
+
+      # ----------------------------
+      # Run smoke tests
+      # ----------------------------
+      - name: Execute smoke tests
+        run: |
+          docker run --rm \
+            -e ONAP_HOST=${{ secrets.ONAP_HOST }} \
+            -e ONAP_USER=${{ secrets.ONAP_USER }} \
+            -e ONAP_PASSWORD=${{ secrets.ONAP_PASSWORD }} \
+            acm-xtesting:ci
+
+      # ----------------------------
+      # Cleanup (always)
+      # ----------------------------
+      - name: Cleanup ACM
+        if: always()
+        run: |
+          bash scripts/cleanup.sh || true
