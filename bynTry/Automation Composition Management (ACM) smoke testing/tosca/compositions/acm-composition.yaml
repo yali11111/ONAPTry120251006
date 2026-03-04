@@ -1,1 +1,32 @@
+tosca_definitions_version: tosca_simple_yaml_1_3
 
+description: Simple ACM Composition Example
+
+imports:
+  - ../policy-types/policy-type.yaml
+  - ../node-types/automation-node.yaml
+
+topology_template:
+
+  inputs:
+    image_name:
+      type: string
+      default: nginx:latest
+
+  node_templates:
+
+    automation_node_1:
+      type: onap.nodes.Automation
+      properties:
+        image: { get_input: image_name }
+        command: "echo Deploy"
+
+  policies:
+
+    - automation_policy_1:
+        type: onap.policies.clamp.acm.AutomationPolicy
+        properties:
+          timeout: 300
+          retry_count: 2
+        targets:
+          - automation_node_1
