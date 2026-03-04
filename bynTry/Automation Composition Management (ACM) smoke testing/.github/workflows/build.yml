@@ -1,1 +1,74 @@
+name: Build & Validate
 
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ----------------------------
+      # Setup Python
+      # ----------------------------
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # ----------------------------
+      # Install validation tools
+      # ----------------------------
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install yamllint tosca-parser
+
+      # ----------------------------
+      # Lint YAML
+      # ----------------------------
+      - name: Lint YAML files
+        run: |
+          yamllint .
+
+      # ----------------------------
+      # Validate TOSCA composition
+      # ----------------------------
+      - name: Validate TOSCA
+        run: |
+          tosca-parser tosca/compositions/acm-composition.yaml
+
+      # ----------------------------
+      # Validate shell scripts
+      # ----------------------------
+      - name: Validate shell scripts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+          shellcheck scripts/*.sh
+
+      # ----------------------------
+      # Build xtesting Docker image
+      # ----------------------------
+      - name: Build xtesting Docker image
+        run: |
+          docker build -f docker/Dockerfile.xtesting -t acm-xtesting:ci .
+
+      # ----------------------------
+      # Save Docker image as artifact
+      # ----------------------------
+      - name: Save Docker image
+        run: |
+          docker save acm-xtesting:ci -o acm-xtesting.tar
+
+      - name: Upload Docker artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: acm-xtesting-image
+          path: acm-xtesting.tar
