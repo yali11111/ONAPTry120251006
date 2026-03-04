@@ -1,1 +1,12 @@
-
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-event-consumer-config
+data:
+  config.yaml: |
+    kafka:
+      brokers: {{ .Values.kafka.brokers }}
+      topic: {{ .Values.kafka.topic }}
+      groupId: {{ .Values.kafka.groupId }}
+    logging:
+      level: {{ .Values.env.LOG_LEVEL }}
