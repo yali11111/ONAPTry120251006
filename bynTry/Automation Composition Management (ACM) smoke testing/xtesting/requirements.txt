@@ -1,1 +1,17 @@
+# Core test framework
+pytest==8.2.2
 
+# YAML parsing for testcases.yaml
+PyYAML==6.0.2
+
+# HTTP client for ONAP REST API calls
+requests==2.32.3
+
+# JSON utilities (safe parsing & validation)
+jsonschema==4.22.0
+
+# Optional: Better test output formatting
+pytest-html==4.1.1
+
+# Optional: Retry logic for unstable environments
+tenacity==8.3.0
