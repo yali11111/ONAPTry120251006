@@ -1,1 +1,27 @@
+replicaCount: 2
 
+image:
+  repository: myregistry/5g-orchestrator
+  tag: v1.0.0
+  pullPolicy: IfNotPresent
+
+api:
+  restPort: 8080
+  grpcPort: 50051
+
+adapters:
+  vnfManagerEndpoint: "http://vnfm:8080"
+  sdncEndpoint: "http://sdnc:8282"
+  nsManagerEndpoint: "http://nsmf:8080"
+
+resources:
+  limits:
+    cpu: 1
+    memory: 1Gi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+
+env:
+  LOG_LEVEL: INFO
+  CONFIG_FILE: /etc/orchestrator/config.yaml
