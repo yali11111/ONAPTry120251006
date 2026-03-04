@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-acm
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: acm-ci
+  template:
+    metadata:
+      labels:
+        app: acm-ci
+    spec:
+      containers:
+        - name: acm-ci
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: ONAP_HOST
+              value: "{{ .Values.onap.host }}"
+            - name: ONAP_USER
+              value: "{{ .Values.onap.username }}"
+            - name: ONAP_PASSWORD
+              value: "{{ .Values.onap.password }}"
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
