@@ -1,1 +1,6 @@
-
+apiVersion: v2
+name: event-consumer
+description: Helm chart for deploying the 5G Event Consumer service
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
