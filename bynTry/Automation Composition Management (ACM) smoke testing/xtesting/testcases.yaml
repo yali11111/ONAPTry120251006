@@ -1,1 +1,24 @@
+# Test cases for ACM smoke tests
+tests:
 
+  - name: deploy_instance_test
+    description: Verify ACM instance deploys successfully
+    instance_id_file: "../instance_id.txt"
+    expected_state: DEPLOYED
+    timeout_seconds: 300
+
+  - name: policy_action_test
+    description: Verify ACM automation policy executes correctly
+    instance_id_file: "../instance_id.txt"
+    policy_name: automation_policy_1
+    expected_result: SUCCESS
+    timeout_seconds: 120
+
+  - name: composition_inputs_test
+    description: Validate ACM composition inputs are correctly applied
+    instance_id_file: "../instance_id.txt"
+    inputs:
+      image_name: nginx:latest
+      replica_count: 1
+    expected_state: VALIDATED
+    timeout_seconds: 60
