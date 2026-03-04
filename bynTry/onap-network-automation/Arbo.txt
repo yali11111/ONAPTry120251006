@@ -1,5 +1,5 @@
 
-5g-network-automation/
+onap-network-automation/
 ├── .github/
 │   ├── workflows/
 │   │   └── ci-cd.yml
