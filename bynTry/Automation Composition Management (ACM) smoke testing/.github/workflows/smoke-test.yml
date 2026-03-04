@@ -37,7 +37,13 @@ jobs:
             -e ONAP_USER=${{ secrets.ONAP_USER }} \
             -e ONAP_PASSWORD=${{ secrets.ONAP_PASSWORD }} \
             acm-xtesting:ci
-
+ - name: Run ACM smoke tests
+   run: |
+     pip install -r xtesting/requirements.txt
+     export ONAP_HOST=${{ secrets.ONAP_HOST }}
+     export ONAP_USER=${{ secrets.ONAP_USER }}
+     export ONAP_PASSWORD=${{ secrets.ONAP_PASSWORD }}
+     pytest xtesting/smoke/test_acm_smoke.py --yaml xtesting/testcases.yaml
       # ----------------------------
       # Cleanup (always)
       # ----------------------------
