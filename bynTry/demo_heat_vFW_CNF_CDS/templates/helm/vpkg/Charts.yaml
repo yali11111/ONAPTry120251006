@@ -1,9 +1,1 @@
-templates/                 # Helm/manifest templates
-│   ├── helm/                  # CNF Helm charts
-│   │   ├── base_template/     # Base Helm chart
-│   │   ├── vpkg/              # vFW package chart
-│   │   └── … 
-│   ├── package_native/        # Native Helm onboarding package
-│   ├── package_dummy/         # Dummy Heat version (deprecated)
-│   └── Makefile               # Builds onboarding ZIPs
-└── README / manifest files
+
