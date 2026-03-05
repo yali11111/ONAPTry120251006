@@ -15,3 +15,5 @@ demo/heat/vFW_CNF_CDS/
 │   └── Makefile               # Builds onboarding ZIPs
 └── README / manifest files
 ```
+
+https://docs.onap.org/projects/onap-integration/en/latest/docs_vFWDT.html
