@@ -1,0 +1,9 @@
+A deprecated Heat-based version.
+
+Heat is an orchestration engine used in:
+
+OpenStack
+
+older NFV architectures
+
+This folder exists only for backward compatibility or examples.
